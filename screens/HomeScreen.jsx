@@ -5,13 +5,14 @@ import * as Location from "expo-location";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import DressItem from "../components/DressItem";
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch} from 'react-redux';
+import { getProducts } from "../ProductReducer";
 
 const HomeScreen = ({ navigation }) => {
 
 
     const cart = useSelector((state) => state.cart.cart);
-    console.log(cart);
+    //console.log(cart);
 
   
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
@@ -135,21 +136,30 @@ const HomeScreen = ({ navigation }) => {
 
 
       const product = useSelector((state) => state.product.product);
+     // console.log(product)
+
       const dispatch = useDispatch();
       useEffect(() => {
         if (product.length > 0) return;
     
-        const fetchProducts = async () => {
-          const colRef = collection(db,"types");
-          const docsSnap = await getDocs(colRef);
-          docsSnap.forEach((doc) => {
-            items.push(doc.data());
-          });
-          items?.map((service) => dispatch(getProducts(service)));
-        };
+        // const fetchProducts = async () => {
+        //   const colRef = collection(db,"types");
+        //   const docsSnap = await getDocs(colRef);
+        //   docsSnap.forEach((doc) => {
+        //     items.push(doc.data());
+        //   });
+        //   items?.map((service) => dispatch(getProducts(service)));
+        // };
+        // fetchProducts();
+
+        const fetchProducts =  () => {
+
+            services.map((service)=>dispatch(getProducts(service))) 
+        }
+          
         fetchProducts();
       }, []);
-      console.log(product);
+
   
 
     return (
@@ -178,7 +188,7 @@ const HomeScreen = ({ navigation }) => {
                 <Services />
                
                 {/* Render all the Products */}
-                {services.map((item, index) => (
+                {product.map((item, index) => (
                     <DressItem item={item} key={index} />
                 ))}
             </ScrollView>
