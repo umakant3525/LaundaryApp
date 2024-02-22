@@ -29,7 +29,7 @@ const DressItem = ({ item }) => {
 
         <View>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.price}>${item.price}</Text>
+          <Text style={styles.price}>{item.price}RS</Text>
         </View>
 
         {cart.some((c) => c.id === item.id) ? (
